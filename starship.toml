@@ -1,0 +1,23 @@
+# Minimal Starship configuration
+
+add_newline = false
+
+[character]
+# success_symbol = '--'
+
+[directory]
+truncate_to_repo = false  # Prevent truncation based on Git repos
+
+# Disable Git-related modules
+[git_branch]
+disabled = true
+
+[git_commit]
+disabled = true
+
+[git_state]
+disabled = true
+
+[git_status]
+disabled = true
+

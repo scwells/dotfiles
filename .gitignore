@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Whitelist
+
+!.gitignore
+!starship.toml
+!nvim/
+!nvim/**
+
