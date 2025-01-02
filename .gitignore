@@ -7,4 +7,5 @@
 !starship.toml
 !nvim/
 !nvim/**
+!ghostty.config
 
