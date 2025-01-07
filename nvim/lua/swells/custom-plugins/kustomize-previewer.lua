@@ -7,10 +7,9 @@ local preview_dir = nil
 
 -- Function to run kustomize build and display the output
 function M.kustomize_build(dir)
-  
+  -- Check if the directory is valid; if not, use the parent directory of the file
   if vim.fn.isdirectory(dir) == 0 then
-    -- If it's a file, set the dir to its parent directory
-    dir = vim.fn.fnamemodify(dir, ":p:h")
+    dir = vim.fn.fnamemodify(dir, ":p:h")  -- Get the parent directory of the file
   end
   
   preview_dir = dir
@@ -25,31 +24,33 @@ function M.kustomize_build(dir)
 
   -- If the preview window doesn't exist, create it
   if not preview_win or not vim.api.nvim_win_is_valid(preview_win) then
-    -- Create a vertical split to the right
+    -- Create a vertical split to the right if the window doesn't exist
     vim.cmd("wincmd 99l")
     vim.cmd("rightbelow vsplit")  -- Open a vertical split to the right of the current window
 
     -- Create a new scratch buffer
     preview_buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_win_set_buf(0, preview_buf)   -- Set the new buffer in the current split
-    preview_win = vim.api.nvim_get_current_win() -- Keep reference to the window
+    vim.api.nvim_win_set_buf(0, preview_buf)  -- Set the new buffer in the current split
+    preview_win = vim.api.nvim_get_current_win()  -- Keep reference to the window
 
-    -- Set the statusline to "Kustomize preview"
-    vim.api.nvim_buf_set_option(preview_buf, "statusline", "Kustomize previewer: " .. dir)
     vim.api.nvim_buf_set_option(preview_buf, "buftype", "nofile")  -- No file backing
     vim.api.nvim_buf_set_option(preview_buf, "bufhidden", "wipe")  -- Automatically wipe buffer on close
     vim.api.nvim_buf_set_option(preview_buf, "swapfile", false)    -- Disable swapfile
   else
-    -- If the preview window exists, just reuse it (clear and update the buffer)
-    vim.api.nvim_win_set_buf(preview_win, preview_buf)  -- Ensure we're using the correct buffer
+    -- If the preview window exists, reuse it and update the buffer
+    vim.api.nvim_win_set_buf(preview_win, preview_buf)
+
+    -- Optionally, reset the contents of the buffer (clear old content before updating)
+    -- vim.api.nvim_buf_set_lines(preview_buf, 0, -1, false, {})
   end
 
+  -- Set the statusline to show the directory and timestamp
+  vim.api.nvim_buf_set_option(preview_buf, "statusline", "K Preview: " .. dir:match(".*/k8s/(.*)") .. " @ " .. vim.fn.strftime("%H:%M:%S"))
   -- Populate the buffer with the output of kustomize build
   vim.api.nvim_buf_set_lines(preview_buf, 0, -1, false, vim.split(output, "\n"))
 
   -- Mark the buffer as YAML for Treesitter and linting
   vim.api.nvim_buf_set_option(preview_buf, "filetype", "yaml")
-
 end
 
 -- Setup function to define the Kb command
