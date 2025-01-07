@@ -11,4 +11,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ import = "swells.plugins" })
+require("lazy").setup({
+  { import = "swells.plugins" },
+  {
+    dir = vim.fn.stdpath("config") .. "/lua/swells/custom-plugins",
+    lazy = false, -- Load immediately
+    config = function()
+      require("swells.custom-plugins.kustomize-previewer").setup()
+    end,
+  },
+})
+

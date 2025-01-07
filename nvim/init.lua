@@ -21,6 +21,7 @@ vim.keymap.set('n', '<leader>ff', telescopeBuiltin.find_files, { desc = 'Telesco
 vim.keymap.set('n', '<leader>fg', telescopeBuiltin.live_grep,  { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', telescopeBuiltin.buffers,    { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', telescopeBuiltin.help_tags,  { desc = 'Telescope help tags' })
+vim.keymap.set('n', '<leader>gs', telescopeBuiltin.git_status, { desc = 'Telescope git status' })
 
 -- Line movement keybinds
 vim.keymap.set('n', '<A-j>',      ':m .+1<CR>==',              { desc = 'Move line down' })
