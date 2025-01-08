@@ -55,7 +55,7 @@ end
 
 -- Setup function to define the Kb command
 function M.setup()
-  vim.api.nvim_create_user_command("Kb", function(args)
+  vim.api.nvim_create_user_command("Kp", function(args)
     M.kustomize_build(args.args)
   end, { nargs = 1, complete = "dir" })
 

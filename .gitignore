@@ -8,4 +8,6 @@
 !nvim/
 !nvim/**
 !ghostty.config
+!j-tools/
+!j-tools/**
 
